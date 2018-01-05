@@ -8,11 +8,29 @@
 </ion-header>
 
 <ion-content padding>
-  <h3>Ionic Menu Starter</h3>
-
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will show you the way.
-  </p>
+  <h3>List of Subject</h3>
+  <ion-list>
+    <ion-item>
+      <ion-label fixed>Name</ion-label>
+      <ion-input
+      type="text"
+      name="ingredient"
+      placeholder="Milk"
+      ngModel required></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label fixed>Code</ion-label>
+      <ion-label fixed>Name</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label fixed>Name</ion-label>
+      <ion-input
+      type="text"
+      name="ingredient"
+      placeholder="Milk"
+      ngModel required></ion-input>
+    </ion-item>
+  </ion-list>
 
   <button ion-button secondary menuToggle>Toggle Menu</button>
 </ion-content>

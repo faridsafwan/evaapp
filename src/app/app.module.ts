@@ -8,27 +8,56 @@ import { ListPage } from '../pages/list/list';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { ResponsePage } from '../pages/response/response';
+
+import { EditSubjectListPage } from '../pages/edit-subject-list/edit-subject-list';
+import { SubjectListPage } from '../pages/subject-list/subject-list';
+import { SubjectsService } from '../services/subjects';
+import { SubjectPage } from '../pages/subject/subject';
+import { SigninPage } from '../pages/signin/signin';
+import { SignupPage } from '../pages/signup/signup';
+import { AuthService } from '../services/auth';
+import { HttpModule } from '@angular/http';
+import { DatabaseOptionsPage} from '../pages/database-options/database-options'
+
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
-    ListPage
+    ListPage,
+    ResponsePage,
+    SubjectListPage,
+    EditSubjectListPage,
+    SubjectPage,
+    SigninPage,
+    SignupPage,
+    DatabaseOptionsPage
   ],
   imports: [
     BrowserModule,
+    HttpModule,
     IonicModule.forRoot(MyApp),
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
     HomePage,
-    ListPage
+    ListPage,
+    ResponsePage,
+    SubjectListPage,
+    EditSubjectListPage,
+    SubjectPage,
+    SigninPage,
+    SignupPage,
+    DatabaseOptionsPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    SubjectsService,
+    AuthService,
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
   ]
 })
 export class AppModule {}

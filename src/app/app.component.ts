@@ -1,33 +1,45 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform } from 'ionic-angular';
+import { Platform,NavController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-
-import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
+import { SubjectListPage } from '../pages/subject-list/subject-list';
+import { SigninPage } from '../pages/signin/signin';
+import { SignupPage } from '../pages/signup/signup';
+import { MenuController } from 'ionic-angular/components/app/menu-controller';
+import * as firebase from 'firebase';
+import { AuthService } from '../services/auth';
 
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
-  @ViewChild(Nav) nav: Nav;
+  @ViewChild('nav') nav: NavController;
 
-  rootPage: any = HomePage;
-
+  rootPage: any = SubjectListPage;
+  signinPage = SigninPage;
+  signupPage = SignupPage;
+  isAuthenticated = false;
   pages: Array<{title: string, component: any}>;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
-    this.initializeApp();
+  constructor(public platform: Platform, 
+              public statusBar: StatusBar, 
+              public splashScreen: SplashScreen, 
+              private menuCtrl: MenuController,
+              private authService: AuthService) {
+    firebase.initializeApp({
+      apiKey: "AIzaSyA7BBAeguIfsXihLeHhymC6ARvwG6tyYh0",
+      authDomain: "evaluationapp-23f25.firebaseapp.com",
+    });
+    firebase.auth().onAuthStateChanged(user=> {
+      if (user){
+        this.isAuthenticated = true;
+        this.rootPage = SubjectListPage;
+      } else {
+        this.isAuthenticated = false;
+        this.rootPage = SigninPage;
+      }
+    })
 
-    // used for an example of ngFor and navigation
-    this.pages = [
-      { title: 'Home', component: HomePage },
-      { title: 'List', component: ListPage }
-    ];
-
-  }
-
-  initializeApp() {
     this.platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
@@ -36,9 +48,14 @@ export class MyApp {
     });
   }
 
-  openPage(page) {
-    // Reset the content nav to have just this page
-    // we wouldn't want the back button to show in this scenario
-    this.nav.setRoot(page.component);
+  onLoad(page: any){
+    this.nav.setRoot(page);
+    this.menuCtrl.close();
+  }
+
+  onLogout(){
+    this.authService.logout();
+    this.menuCtrl.close();
+    this.nav.setRoot(SigninPage);
   }
 }
